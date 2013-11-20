@@ -1,3 +1,15 @@
+*   Add `Application#verifier` method to return a application's message verifier.
+
+    This verifier can be used to generate and verify signed messages in the application.
+
+        message = Rails.application.verifier.generate('my sensible data')
+        Rails.application.verifier.verify(message)
+        # => 'my sensible data'
+
+    See the `ActiveSupport::MessageVerifier` documentation to more information.
+
+    *Rafael Mendonça França*
+
 *   Instrument an `load_config_initializer.railties` event on each load of configuration initializer
     from `config/initializers`. Subscribers should be attached before `load_config_initializers`
     initializer completed.
