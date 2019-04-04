@@ -113,6 +113,13 @@ module ActiveRecord
         if inverse = inverse_association_for(record)
           inverse.inversed_from(owner)
         end
+        if record.is_a?(CategoryQuestion)
+          # owner: question
+          # inverse: category association
+          # it should be wrong!!
+          p inverse
+          p [:set, record]
+        end
         record
       end
 
