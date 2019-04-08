@@ -162,15 +162,10 @@ module ActiveRecord
           node.reflection.chain.map { |reflection|
             alias_tracker.aliased_table_for(
               reflection.table_name,
-              table_alias_for(reflection, parent, reflection != node.reflection),
+              reflection.alias_candidate(parent.table_name),
               reflection.klass.type_caster
             )
           }
-        end
-
-        def table_alias_for(reflection, parent, join)
-          name = reflection.alias_candidate(parent.table_name)
-          join ? "#{name}_join" : name
         end
 
         def walk(left, right)

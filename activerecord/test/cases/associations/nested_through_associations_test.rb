@@ -426,7 +426,7 @@ class NestedThroughAssociationsTest < ActiveRecord::TestCase
     # Check the polymorphism of taggings is being observed correctly (in both joins)
     authors = Author.joins(:similar_posts).where("taggings.taggable_type" => "FakeModel")
     assert_empty authors
-    authors = Author.joins(:similar_posts).where("taggings_authors_join.taggable_type" => "FakeModel")
+    authors = Author.joins(:similar_posts).where("taggings_authors.taggable_type" => "FakeModel")
     assert_empty authors
   end
 

@@ -709,7 +709,7 @@ class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
   def test_join_table_alias
     assert_equal(
       3,
-      Developer.includes(projects: :developers).where.not("projects_developers_projects_join.joined_on": nil).to_a.size
+      Developer.includes(projects: :developers).where.not("projects_developers_projects.joined_on": nil).to_a.size
     )
   end
 
@@ -722,7 +722,7 @@ class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
 
     assert_equal(
       3,
-      Developer.includes(projects: :developers).where.not("projects_developers_projects_join.joined_on": nil).group(group.join(",")).to_a.size
+      Developer.includes(projects: :developers).where.not("projects_developers_projects.joined_on": nil).group(group.join(",")).to_a.size
     )
   end
 
