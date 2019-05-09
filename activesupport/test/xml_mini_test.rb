@@ -311,12 +311,12 @@ module XmlMiniTest
     end
 
     def test_yaml
-      yaml = <<YAML
-product:
-  - sku         : BL394D
-    quantity    : 4
-    description : Basketball
-YAML
+      yaml = <<~YAML
+        product:
+          - sku         : BL394D
+            quantity    : 4
+            description : Basketball
+      YAML
       expected = {
         "product" => [
           { "sku" => "BL394D", "quantity" => 4, "description" => "Basketball" }
@@ -329,19 +329,19 @@ YAML
     end
 
     def test_base64Binary_and_binary
-      base64 = <<BASE64
-TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlz
-IHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2Yg
-dGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGlu
-dWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRo
-ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=
-BASE64
-      expected_base64 = <<EXPECTED
-Man is distinguished, not only by his reason, but by this singular passion from
-other animals, which is a lust of the mind, that by a perseverance of delight
-in the continued and indefatigable generation of knowledge, exceeds the short
-vehemence of any carnal pleasure.
-EXPECTED
+      base64 = <<~BASE64
+        TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlz
+        IHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2Yg
+        dGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGlu
+        dWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRo
+        ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=
+      BASE64
+      expected_base64 = <<~EXPECTED
+        Man is distinguished, not only by his reason, but by this singular passion from
+        other animals, which is a lust of the mind, that by a perseverance of delight
+        in the continued and indefatigable generation of knowledge, exceeds the short
+        vehemence of any carnal pleasure.
+      EXPECTED
 
       parser = @parsing["base64Binary"]
       assert_equal expected_base64.gsub(/\n/, " ").strip, parser.call(base64)

@@ -101,20 +101,20 @@ module ActiveRecord
         ActiveSupport.on_load(:active_record) do
           if app.config.active_record.cache_versioning && Rails.cache
             unless Rails.cache.class.try(:supports_cache_versioning?)
-              raise <<-end_error
+              raise <<~end_error
 
-You're using a cache store that doesn't support native cache versioning.
-Your best option is to upgrade to a newer version of #{Rails.cache.class}
-that supports cache versioning (#{Rails.cache.class}.supports_cache_versioning? #=> true).
+                You're using a cache store that doesn't support native cache versioning.
+                Your best option is to upgrade to a newer version of #{Rails.cache.class}
+                that supports cache versioning (#{Rails.cache.class}.supports_cache_versioning? #=> true).
 
-Next best, switch to a different cache store that does support cache versioning:
-https://guides.rubyonrails.org/caching_with_rails.html#cache-stores.
+                Next best, switch to a different cache store that does support cache versioning:
+                https://guides.rubyonrails.org/caching_with_rails.html#cache-stores.
 
-To keep using the current cache store, you can turn off cache versioning entirely:
+                To keep using the current cache store, you can turn off cache versioning entirely:
 
-    config.active_record.cache_versioning = false
+                    config.active_record.cache_versioning = false
 
-end_error
+              end_error
             end
           end
         end

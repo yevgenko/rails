@@ -695,12 +695,12 @@ class ErrorsTest < ActiveModel::TestCase
 
   test "errors are backward compatible with the Rails 4.2 format" do
     yaml = <<~CODE
-    --- !ruby/object:ActiveModel::Errors
-    base: &1 !ruby/object:ErrorsTest::Person
-      errors: !ruby/object:ActiveModel::Errors
-        base: *1
-        messages: {}
-    messages: {}
+      --- !ruby/object:ActiveModel::Errors
+      base: &1 !ruby/object:ErrorsTest::Person
+        errors: !ruby/object:ActiveModel::Errors
+          base: *1
+          messages: {}
+      messages: {}
     CODE
 
     errors = YAML.load(yaml)
@@ -715,18 +715,18 @@ class ErrorsTest < ActiveModel::TestCase
 
   test "errors are compatible with YAML dumped from Rails 5.x" do
     yaml = <<~CODE
-    --- !ruby/object:ActiveModel::Errors
-    base: &1 !ruby/object:ErrorsTest::Person
-      errors: !ruby/object:ActiveModel::Errors
-        base: *1
-        messages: {}
-        details: {}
-    messages:
-      :name:
-      - is invalid
-    details:
-      :name:
-      - :error: :invalid
+      --- !ruby/object:ActiveModel::Errors
+      base: &1 !ruby/object:ErrorsTest::Person
+        errors: !ruby/object:ActiveModel::Errors
+          base: *1
+          messages: {}
+          details: {}
+      messages:
+        :name:
+        - is invalid
+      details:
+        :name:
+        - :error: :invalid
     CODE
 
     errors = YAML.load(yaml)
@@ -740,18 +740,18 @@ class ErrorsTest < ActiveModel::TestCase
 
   test "errors are compatible with YAML dumped from Rails 6.x" do
     yaml = <<~CODE
-    --- !ruby/object:ActiveModel::Errors
-    base: &1 !ruby/object:ErrorsTest::Person
-      errors: !ruby/object:ActiveModel::Errors
+      --- !ruby/object:ActiveModel::Errors
+      base: &1 !ruby/object:ErrorsTest::Person
+        errors: !ruby/object:ActiveModel::Errors
+          base: *1
+          errors: []
+      errors:
+      - !ruby/object:ActiveModel::Error
         base: *1
-        errors: []
-    errors:
-    - !ruby/object:ActiveModel::Error
-      base: *1
-      attribute: :name
-      type: :invalid
-      raw_type: :invalid
-      options: {}
+        attribute: :name
+        type: :invalid
+        raw_type: :invalid
+        options: {}
     CODE
 
     errors = YAML.load(yaml)

@@ -73,9 +73,9 @@ module ApplicationTests
         config.cache_classes = true
       RUBY
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "1"
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "1"
       YAML
 
       app_file "app/models/foo.rb", <<-RUBY
@@ -103,9 +103,9 @@ en:
         config.cache_classes = false
       RUBY
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "1"
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "1"
       YAML
 
       app_file "config/routes.rb", <<-RUBY
@@ -124,9 +124,9 @@ en:
       # Wait a full second so we have time for changes to propagate
       sleep(1)
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "2"
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "2"
       YAML
 
       get "/i18n"
@@ -138,9 +138,9 @@ en:
         config.cache_classes = false
       RUBY
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "1"
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "1"
       YAML
 
       app_file "config/routes.rb", <<-RUBY
@@ -160,9 +160,9 @@ en:
       sleep(1)
 
       remove_file "config/locales/en.yml"
-      app_file "config/locales/custom.en.yml", <<-YAML
-en:
-  foo: "2"
+      app_file "config/locales/custom.en.yml", <<~YAML
+        en:
+          foo: "2"
       YAML
 
       get "/i18n"
@@ -174,9 +174,9 @@ en:
         config.cache_classes = false
       RUBY
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "1"
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "1"
       YAML
 
       app_file "config/routes.rb", <<-RUBY
@@ -196,9 +196,9 @@ en:
       # Wait a full second so we have time for changes to propagate
       sleep(1)
 
-      app_file "config/locales/fr.yml", <<-YAML
-fr:
-  foo: "2"
+      app_file "config/locales/fr.yml", <<~YAML
+        fr:
+          foo: "2"
       YAML
 
       get "/i18n"

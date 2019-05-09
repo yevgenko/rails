@@ -62,8 +62,8 @@ module Arel # :nodoc: all
         Arel::Nodes::In.new(self, other.ast)
       when Range
         if $VERBOSE
-          warn <<-eowarn
-Passing a range to `#in` is deprecated. Call `#between`, instead.
+          warn <<~eowarn
+            Passing a range to `#in` is deprecated. Call `#between`, instead.
           eowarn
         end
         between(other)
@@ -112,8 +112,8 @@ Passing a range to `#in` is deprecated. Call `#between`, instead.
         Arel::Nodes::NotIn.new(self, other.ast)
       when Range
         if $VERBOSE
-          warn <<-eowarn
-Passing a range to `#not_in` is deprecated. Call `#not_between`, instead.
+          warn <<~eowarn
+            Passing a range to `#not_in` is deprecated. Call `#not_between`, instead.
           eowarn
         end
         not_between(other)

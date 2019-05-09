@@ -379,12 +379,12 @@ class TestJSONEncoding < ActiveSupport::TestCase
     h[:foo] = "hello"
     h[:bar] = "world"
 
-    assert_equal <<EXPECTED.chomp, JSON.pretty_generate(h)
-{
-  "foo": "hello",
-  "bar": "world"
-}
-EXPECTED
+    assert_equal <<~EXPECTED.chomp, JSON.pretty_generate(h)
+      {
+        "foo": "hello",
+        "bar": "world"
+      }
+    EXPECTED
     assert_nil h.as_json_called
   end
 

@@ -272,9 +272,9 @@ module ApplicationTests
 
       rails "db:test:prepare"
 
-      assert_unsuccessful_run "models/user_test.rb", <<-ASSERTION
-Expected: ["id", "name"]
-  Actual: ["id", "name", "age"]
+      assert_unsuccessful_run "models/user_test.rb", <<~ASSERTION
+        Expected: ["id", "name"]
+          Actual: ["id", "name", "age"]
       ASSERTION
     end
 

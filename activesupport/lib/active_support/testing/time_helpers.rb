@@ -112,27 +112,21 @@ module ActiveSupport
       def travel_to(date_or_time)
         if block_given? && simple_stubs.stubbing(Time, :now)
           travel_to_nested_block_call = <<~MSG
-
-      Calling `travel_to` with a block, when we have previously already made a call to `travel_to`, can lead to confusing time stubbing.
-
-      Instead of:
-
-         travel_to 2.days.from_now do
-           # 2 days from today
-           travel_to 3.days.from_now do
-             # 5 days from today
-           end
-         end
-
-      preferred way to achieve above is:
-
-         travel 2.days do
-           # 2 days from today
-         end
-
-         travel 5.days do
-           # 5 days from today
-         end
+            Calling `travel_to` with a block, when we have previously already made a call to `travel_to`, can lead to confusing time stubbing.
+            Instead of:
+               travel_to 2.days.from_now do
+                # 2 days from today
+                travel_to 3.days.from_now do
+                  # 5 days from today
+                end
+              end
+            preferred way to achieve above is:
+               travel 2.days do
+                # 2 days from today
+              end
+               travel 5.days do
+                # 5 days from today
+              end
 
           MSG
           raise travel_to_nested_block_call

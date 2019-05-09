@@ -204,11 +204,11 @@ class FunctionalFragmentCachingTest < ActionController::TestCase
   def test_fragment_caching
     get :fragment_cached
     assert_response :success
-    expected_body = <<-CACHED
-Hello
-This bit's fragment cached
-Ciao
-CACHED
+    expected_body = <<~CACHED
+      Hello
+      This bit's fragment cached
+      Ciao
+    CACHED
     assert_equal expected_body, @response.body
 
     assert_equal "This bit's fragment cached",

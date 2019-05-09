@@ -8,8 +8,8 @@ module Rails
       PLURAL_MODEL_NAME_WARN_MESSAGE = "[WARNING] The model name '%s' was recognized as a plural, using the singular '%s' instead. " \
                                        "Override with --force-plural or setup custom inflection rules for this noun before running the generator."
       IRREGULAR_MODEL_NAME_WARN_MESSAGE = <<~WARNING
-      [WARNING] Rails cannot recover singular form from its plural form '%s'.
-      Please setup custom inflection rules for this noun before running the generator in config/initializers/inflections.rb.
+        [WARNING] Rails cannot recover singular form from its plural form '%s'.
+        Please setup custom inflection rules for this noun before running the generator in config/initializers/inflections.rb.
       WARNING
       mattr_accessor :skip_warn
 

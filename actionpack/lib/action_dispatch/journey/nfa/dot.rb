@@ -20,14 +20,14 @@ module ActionDispatch
           #   (memos || []).map { |v| "  #{k} -> #{v.object_id};" }
           # }.uniq
 
-          <<-eodot
-digraph nfa {
-  rankdir=LR;
-  node [shape = doublecircle];
-  #{accepting_states.join ' '};
-  node [shape = circle];
-#{edges.join "\n"}
-}
+          <<~eodot
+            digraph nfa {
+              rankdir=LR;
+              node [shape = doublecircle];
+              #{accepting_states.join ' '};
+              node [shape = circle];
+            #{edges.join "\n"}
+            }
           eodot
         end
       end

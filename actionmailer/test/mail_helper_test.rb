@@ -45,15 +45,15 @@ class HelperMailer < ActionMailer::Base
   end
 
   def use_block_format
-    @text = <<-TEXT
-This is the
-first     paragraph.
+    @text = <<~TEXT
+      This is the
+      first     paragraph.
 
-The second
-   paragraph.
+      The second
+         paragraph.
 
-* item1 * item2
-  * item3
+      * item1 * item2
+        * item3
     TEXT
 
     mail_with_defaults do |format|

@@ -395,21 +395,21 @@ module RailtiesTest
         config.i18n.load_path << "#{app_path}/app/locales/en.yml"
       RUBY
 
-      app_file "app/locales/en.yml", <<-YAML
-en:
-  bar: "1"
-YAML
+      app_file "app/locales/en.yml", <<~YAML
+        en:
+          bar: "1"
+      YAML
 
-      app_file "config/locales/en.yml", <<-YAML
-en:
-  foo: "2"
-  bar: "2"
-YAML
+      app_file "config/locales/en.yml", <<~YAML
+        en:
+          foo: "2"
+          bar: "2"
+      YAML
 
-      @plugin.write "config/locales/en.yml", <<-YAML
-en:
-  foo: "3"
-YAML
+      @plugin.write "config/locales/en.yml", <<~YAML
+        en:
+          foo: "3"
+      YAML
 
       boot_rails
 

@@ -452,22 +452,22 @@ class ActionsTest < Rails::Generators::TestCase
 
     File.write(route_path, content)
 
-    routes = <<-F
-Rails.application.routes.draw do
-  root 'welcome#index'
-end
-F
+    routes = <<~F
+      Rails.application.routes.draw do
+        root 'welcome#index'
+      end
+    F
 
     assert_file "config/routes.rb", routes
 
     action :route, "resources :product_lines"
 
-    routes = <<-F
-Rails.application.routes.draw do
-  resources :product_lines
-  root 'welcome#index'
-end
-F
+    routes = <<~F
+      Rails.application.routes.draw do
+        resources :product_lines
+        root 'welcome#index'
+      end
+    F
     assert_file "config/routes.rb", routes
   end
 

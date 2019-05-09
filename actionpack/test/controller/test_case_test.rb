@@ -81,34 +81,34 @@ class TestCaseTest < ActionController::TestCase
     end
 
     def test_html_output
-      render plain: <<HTML
-<html>
-  <body>
-    <a href="/"><img src="/images/button.png" /></a>
-    <div id="foo">
-      <ul>
-        <li class="item">hello</li>
-        <li class="item">goodbye</li>
-      </ul>
-    </div>
-    <div id="bar">
-      <form action="/somewhere">
-        Name: <input type="text" name="person[name]" id="person_name" />
-      </form>
-    </div>
-  </body>
-</html>
-HTML
+      render plain: <<~HTML
+        <html>
+          <body>
+            <a href="/"><img src="/images/button.png" /></a>
+            <div id="foo">
+              <ul>
+                <li class="item">hello</li>
+                <li class="item">goodbye</li>
+              </ul>
+            </div>
+            <div id="bar">
+              <form action="/somewhere">
+                Name: <input type="text" name="person[name]" id="person_name" />
+              </form>
+            </div>
+          </body>
+        </html>
+      HTML
     end
 
     def test_xml_output
       response.content_type = params[:response_as]
-      render plain: <<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-  <area><p>area is an empty tag in HTML, so it won't contain this content</p></area>
-</root>
-XML
+      render plain: <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <root>
+          <area><p>area is an empty tag in HTML, so it won't contain this content</p></area>
+        </root>
+      XML
     end
 
     def test_only_one_param

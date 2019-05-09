@@ -243,7 +243,7 @@ module ActionView #:nodoc:
 
       unless formats == NULL
         ActiveSupport::Deprecation.warn <<~eowarn.squish
-        Passing formats to ActionView::Base.new is deprecated
+          Passing formats to ActionView::Base.new is deprecated
         eowarn
       end
 
@@ -252,8 +252,8 @@ module ActionView #:nodoc:
         @lookup_context = lookup_context
       else
         ActiveSupport::Deprecation.warn <<~eowarn.squish
-        ActionView::Base instances should be constructed with a lookup context,
-        assignments, and a controller.
+          ActionView::Base instances should be constructed with a lookup context,
+          assignments, and a controller.
         eowarn
         @lookup_context = self.class.build_lookup_context(lookup_context)
       end

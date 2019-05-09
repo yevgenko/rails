@@ -1044,25 +1044,25 @@ class StringIndentTest < ActiveSupport::TestCase
   # there is nothing to test.
 
   test "uses the indent char if passed" do
-    assert_equal <<EXPECTED, <<ACTUAL.indent(4, ".")
-....  def some_method(x, y)
-....    some_code
-....  end
-EXPECTED
+    assert_equal <<~EXPECTED, <<ACTUAL.indent(4, ".")
+      ....  def some_method(x, y)
+      ....    some_code
+      ....  end
+    EXPECTED
   def some_method(x, y)
     some_code
   end
 ACTUAL
 
-    assert_equal <<EXPECTED, <<ACTUAL.indent(2, "&nbsp;")
-&nbsp;&nbsp;&nbsp;&nbsp;def some_method(x, y)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;some_code
-&nbsp;&nbsp;&nbsp;&nbsp;end
-EXPECTED
-&nbsp;&nbsp;def some_method(x, y)
-&nbsp;&nbsp;&nbsp;&nbsp;some_code
-&nbsp;&nbsp;end
-ACTUAL
+    assert_equal <<~EXPECTED, <<~ACTUAL.indent(2, "&nbsp;")
+      &nbsp;&nbsp;&nbsp;&nbsp;def some_method(x, y)
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;some_code
+      &nbsp;&nbsp;&nbsp;&nbsp;end
+    EXPECTED
+      &nbsp;&nbsp;def some_method(x, y)
+      &nbsp;&nbsp;&nbsp;&nbsp;some_code
+      &nbsp;&nbsp;end
+    ACTUAL
   end
 
   test "does not indent blank lines by default" do

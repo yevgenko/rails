@@ -88,14 +88,14 @@ module ActiveRecord
       end
 
       def test_render_context_lookup_scope
-        yaml = <<END
-one:
-  ActiveRecord: <%= defined? ActiveRecord %>
-  ActiveRecord_FixtureSet: <%= defined? ActiveRecord::FixtureSet %>
-  FixtureSet: <%= defined? FixtureSet %>
-  ActiveRecord_FixtureSet_File: <%= defined? ActiveRecord::FixtureSet::File %>
-  File: <%= File.name %>
-END
+        yaml = <<~END
+          one:
+            ActiveRecord: <%= defined? ActiveRecord %>
+            ActiveRecord_FixtureSet: <%= defined? ActiveRecord::FixtureSet %>
+            FixtureSet: <%= defined? FixtureSet %>
+            ActiveRecord_FixtureSet_File: <%= defined? ActiveRecord::FixtureSet::File %>
+            File: <%= File.name %>
+        END
 
         golden = [["one", {
           "ActiveRecord" => "constant",

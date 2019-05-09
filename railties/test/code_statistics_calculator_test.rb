@@ -141,17 +141,17 @@ class CodeStatisticsCalculatorTest < ActiveSupport::TestCase
   end
 
   test "skip Ruby comments" do
-    code = <<-'CODE'
-=begin
-      class Foo
-        def foo
-          puts 'foo'
-        end
-      end
-=end
+    code = <<~'CODE'
+      =begin
+            class Foo
+              def foo
+                puts 'foo'
+              end
+            end
+      =end
 
-      # class A
-      # end
+            # class A
+            # end
     CODE
 
     @code_statistics_calculator.add_by_io(StringIO.new(code), :rb)
@@ -280,17 +280,17 @@ class CodeStatisticsCalculatorTest < ActiveSupport::TestCase
   end
 
   test "skip CoffeeScript comments" do
-    code = <<-'CODE'
-###
-class Animal
-  constructor: (@name) ->
+    code = <<~'CODE'
+      ###
+      class Animal
+        constructor: (@name) ->
 
-  move: (meters) ->
-    alert @name + " moved #{meters}m."
-  ###
+        move: (meters) ->
+          alert @name + " moved #{meters}m."
+        ###
 
-  # class Horse
-  alert 'hello'
+        # class Horse
+        alert 'hello'
     CODE
 
     @code_statistics_calculator.add_by_io(StringIO.new(code), :coffee)
