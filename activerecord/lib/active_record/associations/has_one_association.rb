@@ -97,7 +97,7 @@ module ActiveRecord
         end
 
         def nullify_owner_attributes(record)
-          record[reflection.foreign_key] = nil
+          record._write_attribute(reflection.join_primary_key, nil)
         end
 
         def transaction_if(value)

@@ -5,18 +5,19 @@ module ActiveRecord
     # = Active Record Belongs To Polymorphic Association
     class BelongsToPolymorphicAssociation < BelongsToAssociation #:nodoc:
       def klass
-        type = owner[reflection.foreign_type]
+        type = owner._read_attribute(reflection.join_foreign_type)
         type.presence && owner.class.polymorphic_class_for(type)
       end
 
       def target_changed?
-        super || owner.saved_change_to_attribute?(reflection.foreign_type)
+        super || owner.saved_change_to_attribute?(reflection.join_foreign_type)
       end
 
       private
         def replace_keys(record)
           super
-          owner[reflection.foreign_type] = record ? record.class.polymorphic_name : nil
+          type = record ? record.class.polymorphic_name : nil
+          owner._write_attribute(reflection.join_foreign_type, type)
         end
 
         def inverse_reflection_for(record)
@@ -29,7 +30,7 @@ module ActiveRecord
 
         def stale_state
           foreign_key = super
-          foreign_key && [foreign_key.to_s, owner[reflection.foreign_type].to_s]
+          foreign_key && [foreign_key.to_s, owner._read_attribute(reflection.join_foreign_type).to_s]
         end
     end
   end

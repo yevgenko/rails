@@ -23,6 +23,7 @@ class Post < ActiveRecord::Base
     end
   end
 
+  alias_attribute :new_id, :id
   alias_attribute :text, :body
   alias_attribute :comments_count, :legacy_comments_count
 

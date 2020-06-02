@@ -44,12 +44,12 @@ module ActiveRecord
 
       def decrement_counters_before_last_save
         if reflection.polymorphic?
-          model_was = owner.attribute_before_last_save(reflection.foreign_type)&.constantize
+          model_was = owner.attribute_before_last_save(reflection.join_foreign_type)&.constantize
         else
           model_was = klass
         end
 
-        foreign_key_was = owner.attribute_before_last_save(reflection.foreign_key)
+        foreign_key_was = owner.attribute_before_last_save(reflection.join_foreign_key)
 
         if foreign_key_was && model_was < ActiveRecord::Base
           update_counters_via_scope(model_was, foreign_key_was, -1)
@@ -57,7 +57,7 @@ module ActiveRecord
       end
 
       def target_changed?
-        owner.saved_change_to_attribute?(reflection.foreign_key)
+        owner.saved_change_to_attribute?(reflection.join_foreign_key)
       end
 
       private
@@ -78,7 +78,7 @@ module ActiveRecord
             if target && !stale_target?
               target.increment!(reflection.counter_cache_column, by, touch: reflection.options[:touch])
             else
-              update_counters_via_scope(klass, owner._read_attribute(reflection.foreign_key), by)
+              update_counters_via_scope(klass, owner._read_attribute(reflection.join_foreign_key), by)
             end
           end
         end
@@ -97,15 +97,16 @@ module ActiveRecord
         end
 
         def replace_keys(record)
-          owner[reflection.foreign_key] = record ? record._read_attribute(primary_key(record.class)) : nil
+          key = record ? record._read_attribute(primary_key(record.class)) : nil
+          owner._write_attribute(reflection.join_foreign_key, key)
         end
 
         def primary_key(klass)
-          reflection.association_primary_key(klass)
+          reflection.join_primary_key(klass)
         end
 
         def foreign_key_present?
-          owner._read_attribute(reflection.foreign_key)
+          owner._read_attribute(reflection.join_foreign_key)
         end
 
         def invertible_for?(record)
@@ -114,7 +115,7 @@ module ActiveRecord
         end
 
         def stale_state
-          result = owner._read_attribute(reflection.foreign_key) { |n| owner.send(:missing_attribute, n, caller) }
+          result = owner._read_attribute(reflection.join_foreign_key) { |n| owner.send(:missing_attribute, n, caller) }
           result && result.to_s
         end
     end

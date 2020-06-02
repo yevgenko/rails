@@ -927,8 +927,7 @@ ActiveRecord::Schema.define do
   create_table :taggings, force: true do |t|
     t.column :tag_id, :integer
     t.column :super_tag_id, :integer
-    t.column :taggable_type, :string
-    t.column :taggable_id, :integer
+    t.references :legacy_taggable, polymorphic: true
     t.string :comment
     t.string :type
   end

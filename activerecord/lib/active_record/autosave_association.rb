@@ -442,11 +442,11 @@ module ActiveRecord
           if autosave && record.marked_for_destruction?
             record.destroy
           elsif autosave != false
-            key = reflection.options[:primary_key] ? send(reflection.options[:primary_key]) : id
+            key = _read_attribute(reflection.join_foreign_key) { |n| missing_attribute(n, caller) }
 
             if (autosave && record.changed_for_autosave?) || new_record? || record_changed?(reflection, record, key)
               unless reflection.through_reflection
-                record[reflection.foreign_key] = key
+                record._write_attribute(reflection.join_primary_key, key)
                 if inverse_reflection = reflection.inverse_of
                   record.association(inverse_reflection.name).loaded!
                 end
@@ -464,13 +464,13 @@ module ActiveRecord
       def record_changed?(reflection, record, key)
         record.new_record? ||
           association_foreign_key_changed?(reflection, record, key) ||
-          record.will_save_change_to_attribute?(reflection.foreign_key)
+          record.will_save_change_to_attribute?(reflection.join_primary_key)
       end
 
       def association_foreign_key_changed?(reflection, record, key)
         return false if reflection.through_reflection?
 
-        record._has_attribute?(reflection.foreign_key) && record._read_attribute(reflection.foreign_key) != key
+        record._read_attribute(reflection.join_primary_key) { return false } != key
       end
 
       # Saves the associated record if it's new or <tt>:autosave</tt> is enabled.
@@ -485,14 +485,14 @@ module ActiveRecord
           autosave = reflection.options[:autosave]
 
           if autosave && record.marked_for_destruction?
-            self[reflection.foreign_key] = nil
+            _write_attribute(reflection.join_foreign_key, nil)
             record.destroy
           elsif autosave != false
             saved = record.save(validate: !autosave) if record.new_record? || (autosave && record.changed_for_autosave?)
 
             if association.updated?
-              association_id = record.send(reflection.options[:primary_key] || :id)
-              self[reflection.foreign_key] = association_id
+              key = record._read_attribute(reflection.join_primary_key(record.class)) { |n| missing_attribute(n, caller) }
+              _write_attribute(reflection.join_foreign_key, key)
               association.loaded!
             end
 

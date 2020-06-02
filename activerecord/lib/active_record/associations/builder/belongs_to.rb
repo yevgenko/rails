@@ -46,13 +46,13 @@ module ActiveRecord::Associations::Builder # :nodoc:
         association = o.association(name)
         reflection = association.reflection
         if reflection.polymorphic?
-          foreign_type = reflection.foreign_type
-          klass = changes[foreign_type] && changes[foreign_type].first || o.public_send(foreign_type)
+          foreign_type = reflection.join_foreign_type
+          klass = changes[foreign_type] && changes[foreign_type].first || o._read_attribute(foreign_type)
           klass = klass.constantize
         else
           klass = association.klass
         end
-        primary_key = reflection.association_primary_key(klass)
+        primary_key = reflection.join_primary_key(klass)
         old_record = klass.find_by(primary_key => old_foreign_id)
 
         if old_record
@@ -75,7 +75,7 @@ module ActiveRecord::Associations::Builder # :nodoc:
     end
 
     def self.add_touch_callbacks(model, reflection)
-      foreign_key = reflection.foreign_key
+      foreign_key = reflection.join_foreign_key
       name        = reflection.name
       touch       = reflection.options[:touch]
 

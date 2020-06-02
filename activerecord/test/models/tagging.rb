@@ -5,6 +5,9 @@ module Taggable
 end
 
 class Tagging < ActiveRecord::Base
+  alias_attribute :taggable_type, :legacy_taggable_type
+  alias_attribute :taggable_id, :legacy_taggable_id
+
   belongs_to :tag, -> { includes(:tagging) }
   belongs_to :super_tag,   class_name: "Tag", foreign_key: "super_tag_id"
   belongs_to :invalid_tag, class_name: "Tag", foreign_key: "tag_id"

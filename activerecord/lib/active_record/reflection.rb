@@ -426,7 +426,7 @@ module ActiveRecord
       def association_scope_cache(klass, owner, &block)
         key = self
         if polymorphic?
-          key = [key, owner._read_attribute(@foreign_type)]
+          key = [key, owner._read_attribute(join_foreign_type)]
         end
         klass.cached_find_by_statement(key, &block)
       end
@@ -456,11 +456,18 @@ module ActiveRecord
       end
 
       def join_primary_key(klass = nil)
-        foreign_key
+        primary_key = foreign_key
+        (klass || self.klass).attribute_aliases[primary_key] || primary_key
       end
 
       def join_foreign_key
-        active_record_primary_key
+        foreign_key = active_record_primary_key
+        active_record.attribute_aliases[foreign_key] || foreign_key
+      end
+
+      def join_type
+        join_type = type
+        klass.attribute_aliases[join_type] || join_type
       end
 
       def check_validity!
@@ -481,7 +488,7 @@ module ActiveRecord
       alias :check_eager_loadable! :check_preloadable!
 
       def join_id_for(owner) # :nodoc:
-        owner[join_foreign_key]
+        owner._read_attribute(join_foreign_key)
       end
 
       def through_reflection
@@ -720,15 +727,18 @@ module ActiveRecord
       end
 
       def join_primary_key(klass = nil)
-        polymorphic? ? association_primary_key(klass) : association_primary_key
+        primary_key = polymorphic? ? association_primary_key(klass) : association_primary_key
+        (klass || self.klass).attribute_aliases[primary_key] || primary_key
       end
 
       def join_foreign_key
-        foreign_key
+        foreign_key = self.foreign_key
+        active_record.attribute_aliases[foreign_key] || foreign_key
       end
 
       def join_foreign_type
-        foreign_type
+        foreign_type = self.foreign_type
+        active_record.attribute_aliases[foreign_type] || foreign_type
       end
 
       private
