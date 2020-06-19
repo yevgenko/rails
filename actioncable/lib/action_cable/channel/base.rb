@@ -130,12 +130,12 @@ module ActionCable
           # action_methods are cached and there is sometimes need to refresh
           # them. ::clear_action_methods! allows you to do that, so next time
           # you run action_methods, they will be recalculated.
-          def clear_action_methods! # :doc:
+          def clear_action_methods!
             @action_methods = nil
           end
 
           # Refresh the cached action_methods when a new action_method is added.
-          def method_added(name) # :doc:
+          def method_added(name)
             super
             clear_action_methods!
           end
@@ -196,19 +196,19 @@ module ActionCable
       private
         # Called once a consumer has become a subscriber of the channel. Usually the place to set up any streams
         # you want this channel to be sending to the subscriber.
-        def subscribed # :doc:
+        def subscribed
           # Override in subclasses
         end
 
         # Called once a consumer has cut its cable connection. Can be used for cleaning up connections or marking
         # users as offline or the like.
-        def unsubscribed # :doc:
+        def unsubscribed
           # Override in subclasses
         end
 
         # Transmit a hash of data to the subscriber. The hash will automatically be wrapped in a JSON envelope with
         # the proper channel identifier marked as the recipient.
-        def transmit(data, via: nil) # :doc:
+        def transmit(data, via: nil)
           status = "#{self.class.name} transmitting #{data.inspect.truncate(300)}"
           status += " (via #{via})" if via
           logger.debug(status)
@@ -219,29 +219,29 @@ module ActionCable
           end
         end
 
-        def ensure_confirmation_sent # :doc:
+        def ensure_confirmation_sent
           return if subscription_rejected?
           @defer_subscription_confirmation_counter.decrement
           transmit_subscription_confirmation unless defer_subscription_confirmation?
         end
 
-        def defer_subscription_confirmation! # :doc:
+        def defer_subscription_confirmation!
           @defer_subscription_confirmation_counter.increment
         end
 
-        def defer_subscription_confirmation? # :doc:
+        def defer_subscription_confirmation?
           @defer_subscription_confirmation_counter.value > 0
         end
 
-        def subscription_confirmation_sent? # :doc:
+        def subscription_confirmation_sent?
           @subscription_confirmation_sent
         end
 
-        def reject # :doc:
+        def reject
           @reject_subscription = true
         end
 
-        def subscription_rejected? # :doc:
+        def subscription_rejected?
           @reject_subscription
         end
 

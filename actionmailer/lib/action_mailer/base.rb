@@ -856,6 +856,11 @@ module ActionMailer
       message
     end
 
+    # Emails do not support relative path links.
+    def self.supports_path?
+      false
+    end
+
     private
       # Used by #mail to set the content type of the message.
       #
@@ -866,7 +871,7 @@ module ActionMailer
       # If there is no content type passed in via headers, and there are no
       # attachments, or the message is multipart, then the default content type is
       # used.
-      def set_content_type(m, user_content_type, class_default) # :doc:
+      def set_content_type(m, user_content_type, class_default)
         params = m.content_type_parameters || {}
         case
         when user_content_type.present?
@@ -888,14 +893,9 @@ module ActionMailer
       # If it does not find a translation for the +subject+ under the specified scope it will default to a
       # humanized version of the <tt>action_name</tt>.
       # If the subject has interpolations, you can pass them through the +interpolations+ parameter.
-      def default_i18n_subject(interpolations = {}) # :doc:
+      def default_i18n_subject(interpolations = {})
         mailer_scope = self.class.mailer_name.tr("/", ".")
         I18n.t(:subject, **interpolations.merge(scope: [mailer_scope, action_name], default: action_name.humanize))
-      end
-
-      # Emails do not support relative path links.
-      def self.supports_path? # :doc:
-        false
       end
 
       def apply_defaults(headers)

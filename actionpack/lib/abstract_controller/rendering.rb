@@ -72,7 +72,7 @@ module AbstractController
     # Normalize args by converting <tt>render "foo"</tt> to
     # <tt>render :action => "foo"</tt> and <tt>render "foo/bar"</tt> to
     # <tt>render :file => "foo/bar"</tt>.
-    def _normalize_args(action = nil, options = {}) # :doc:
+    def _normalize_args(action = nil, options = {})
       if action.respond_to?(:permitted?)
         if action.permitted?
           action
@@ -87,33 +87,33 @@ module AbstractController
     end
 
     # Normalize options.
-    def _normalize_options(options) # :doc:
+    def _normalize_options(options)
       options
     end
 
     # Process extra options.
-    def _process_options(options) # :doc:
+    def _process_options(options)
       options
     end
 
     # Process the rendered format.
-    def _process_format(format) # :nodoc:
+    def _process_format(format)
     end
 
     def _process_variant(options)
     end
 
-    def _set_html_content_type # :nodoc:
+    def _set_html_content_type
     end
 
-    def _set_vary_header # :nodoc:
+    def _set_vary_header
     end
 
-    def _set_rendered_content_type(format) # :nodoc:
+    def _set_rendered_content_type(format)
     end
 
     # Normalize args and options.
-    def _normalize_render(*args, &block) # :nodoc:
+    def _normalize_render(*args, &block)
       options = _normalize_args(*args, &block)
       _process_variant(options)
       _normalize_options(options)

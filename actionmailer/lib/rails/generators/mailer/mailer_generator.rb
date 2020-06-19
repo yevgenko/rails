@@ -22,7 +22,7 @@ module Rails
       hook_for :template_engine, :test_framework
 
       private
-        def file_name # :doc:
+        def file_name
           @_file_name ||= super.sub(/_mailer\z/i, "")
         end
 

@@ -412,7 +412,7 @@ module ActionController #:nodoc:
         csrf_token_hmac(session, GLOBAL_CSRF_TOKEN_IDENTIFIER)
       end
 
-      def csrf_token_hmac(session, identifier) # :doc:
+      def csrf_token_hmac(session, identifier)
         OpenSSL::HMAC.digest(
           OpenSSL::Digest::SHA256.new,
           real_csrf_token(session),
@@ -420,7 +420,7 @@ module ActionController #:nodoc:
         )
       end
 
-      def xor_byte_strings(s1, s2) # :doc:
+      def xor_byte_strings(s1, s2)
         s2 = s2.dup
         size = s1.bytesize
         i = 0
@@ -462,12 +462,12 @@ module ActionController #:nodoc:
         end
       end
 
-      def normalize_action_path(action_path) # :doc:
+      def normalize_action_path(action_path)
         uri = URI.parse(action_path)
         uri.path.chomp("/")
       end
 
-      def generate_csrf_token # :nodoc:
+      def generate_csrf_token
         if urlsafe_csrf_tokens
           SecureRandom.urlsafe_base64(AUTHENTICITY_TOKEN_LENGTH, padding: false)
         else
@@ -475,7 +475,7 @@ module ActionController #:nodoc:
         end
       end
 
-      def encode_csrf_token(csrf_token) # :nodoc:
+      def encode_csrf_token(csrf_token)
         if urlsafe_csrf_tokens
           Base64.urlsafe_encode64(csrf_token, padding: false)
         else
@@ -483,7 +483,7 @@ module ActionController #:nodoc:
         end
       end
 
-      def decode_csrf_token(encoded_csrf_token) # :nodoc:
+      def decode_csrf_token(encoded_csrf_token)
         if urlsafe_csrf_tokens
           Base64.urlsafe_decode64(encoded_csrf_token)
         else
