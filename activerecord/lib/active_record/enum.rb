@@ -199,24 +199,72 @@ module ActiveRecord
             enum_values[label] = value
             label = label.to_s
 
+            legacy_method_name = "#{prefix}#{label}#{suffix}"
+            legacy_method_name = nil if legacy_method_name == value_method_name
+
             # def active?() status == "active" end
             klass.send(:detect_enum_conflict!, name, "#{value_method_name}?")
             define_method("#{value_method_name}?") { self[attr] == label }
+
+            if legacy_method_name
+              klass.send(:detect_enum_conflict!, name, "#{legacy_method_name}?")
+              define_method("#{legacy_method_name}?") {
+                ActiveSupport::Deprecation.warn(<<-MSG.squish)
+                  `#{legacy_method_name}?` is deprecated and will be removed in Rails 6.2.
+                  Use `#{value_method_name}?` instead.
+                MSG
+                self[attr] == label
+              }
+            end
 
             # def active!() update!(status: 0) end
             klass.send(:detect_enum_conflict!, name, "#{value_method_name}!")
             define_method("#{value_method_name}!") { update!(attr => value) }
 
+            if legacy_method_name
+              klass.send(:detect_enum_conflict!, name, "#{legacy_method_name}!")
+              define_method("#{legacy_method_name}!") {
+                ActiveSupport::Deprecation.warn(<<-MSG.squish)
+                  `#{legacy_method_name}!` is deprecated and will be removed in Rails 6.2.
+                  Use `#{value_method_name}!` instead.
+                MSG
+                update!(attr => value)
+              }
+            end
+
             # scope :active, -> { where(status: 0) }
             # scope :not_active, -> { where.not(status: 0) }
             if enum_scopes != false
               klass.send(:detect_negative_condition!, value_method_name)
+              klass.send(:detect_negative_condition!, legacy_method_name) if legacy_method_name
 
               klass.send(:detect_enum_conflict!, name, value_method_name, true)
               klass.scope value_method_name, -> { where(attr => value) }
 
+              if legacy_method_name
+                klass.send(:detect_enum_conflict!, name, legacy_method_name, true)
+                klass.scope legacy_method_name, -> {
+                  ActiveSupport::Deprecation.warn(<<-MSG.squish)
+                    `#{legacy_method_name}` is deprecated and will be removed in Rails 6.2.
+                    Use `#{value_method_name}` instead.
+                  MSG
+                  where(attr => value)
+                }
+              end
+
               klass.send(:detect_enum_conflict!, name, "not_#{value_method_name}", true)
               klass.scope "not_#{value_method_name}", -> { where.not(attr => value) }
+
+              if legacy_method_name
+                klass.send(:detect_enum_conflict!, name, "not_#{legacy_method_name}", true)
+                klass.scope "not_#{legacy_method_name}", -> {
+                  ActiveSupport::Deprecation.warn(<<-MSG.squish)
+                    `not_#{legacy_method_name}` is deprecated and will be removed in Rails 6.2.
+                    Use `not_#{value_method_name}` instead.
+                  MSG
+                  where.not(attr => value)
+                }
+              end
             end
           end
         end

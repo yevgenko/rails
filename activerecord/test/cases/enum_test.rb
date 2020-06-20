@@ -592,6 +592,16 @@ class EnumTest < ActiveRecord::TestCase
     assert_raises(NoMethodError) { klass.proposed }
   end
 
+  test "capital characters for scopes are deprecated" do
+    klass = Class.new(ActiveRecord::Base) do
+      self.table_name = "computers"
+      enum extendedWarranty: [:extendedSilver, :extendedGold]
+    end
+
+    assert_deprecated { klass.extendedSilver }
+    assert_deprecated { klass.extendedGold }
+  end
+
   test "scopes are named like methods" do
     klass = Class.new(ActiveRecord::Base) do
       self.table_name = "cats"

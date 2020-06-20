@@ -1,3 +1,7 @@
+*   Deprecate capital characters for enum names.
+
+    *Sarah Vessels*
+
 *   Deprecate YAML loading from legacy format older than Rails 5.0.
 
     *Ryuta Kamizono*
