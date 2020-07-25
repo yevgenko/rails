@@ -63,7 +63,7 @@ module ActiveRecord
       def increment!(*, **) #:nodoc:
         super.tap do
           if locking_enabled?
-            self[self.class.locking_column] += 1
+            increment(self.class.locking_column)
             clear_attribute_change(self.class.locking_column)
           end
         end
@@ -93,7 +93,7 @@ module ActiveRecord
             attribute_names = attribute_names.dup if attribute_names.frozen?
             attribute_names << locking_column
 
-            self[locking_column] += 1
+            increment(locking_column)
 
             affected_rows = self.class._update_record(
               attributes_with_values(attribute_names),
@@ -109,7 +109,7 @@ module ActiveRecord
 
           # If something went wrong, revert the locking_column value.
           rescue Exception
-            self[locking_column] = previous_lock_value.to_i
+            write_attribute(locking_column, previous_lock_value.to_i)
             raise
           end
         end

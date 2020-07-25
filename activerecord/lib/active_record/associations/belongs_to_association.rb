@@ -97,7 +97,7 @@ module ActiveRecord
         end
 
         def replace_keys(record)
-          owner[reflection.foreign_key] = record ? record._read_attribute(primary_key(record.class)) : nil
+          owner.write_attribute(reflection.foreign_key, record ? record._read_attribute(primary_key(record.class)) : nil)
         end
 
         def primary_key(klass)

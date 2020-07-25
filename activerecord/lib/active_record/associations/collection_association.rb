@@ -333,7 +333,7 @@ module ActiveRecord
             if mem_record = memory.delete(record)
 
               ((record.attribute_names & mem_record.attribute_names) - mem_record.changed_attribute_names_to_save).each do |name|
-                mem_record[name] = record[name]
+                mem_record.write_attribute(name, record[name])
               end
 
               mem_record

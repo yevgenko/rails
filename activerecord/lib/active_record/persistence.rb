@@ -691,8 +691,7 @@ module ActiveRecord
     # The increment is performed directly on the underlying attribute, no setter is invoked.
     # Only makes sense for number-based attributes. Returns +self+.
     def increment(attribute, by = 1)
-      self[attribute] ||= 0
-      self[attribute] += by
+      write_attribute(attribute, (self[attribute] || 0) + by)
       self
     end
 
@@ -740,7 +739,7 @@ module ActiveRecord
     #   user.banned? # => true
     #
     def toggle(attribute)
-      self[attribute] = !public_send("#{attribute}?")
+      write_attribute(attribute, !public_send("#{attribute}?"))
       self
     end
 

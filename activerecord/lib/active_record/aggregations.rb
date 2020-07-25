@@ -271,10 +271,10 @@ module ActiveRecord
               end
 
               if part.nil? && allow_nil
-                mapping.each { |key, _| self[key] = nil }
+                mapping.each { |key, _| write_attribute(key, nil) }
                 @aggregation_cache[name] = nil
               else
-                mapping.each { |key, value| self[key] = part.send(value) }
+                mapping.each { |key, value| write_attribute(key, part.send(value)) }
                 @aggregation_cache[name] = part.freeze
               end
             end

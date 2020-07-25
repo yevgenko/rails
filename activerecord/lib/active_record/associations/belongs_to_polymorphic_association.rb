@@ -16,7 +16,7 @@ module ActiveRecord
       private
         def replace_keys(record)
           super
-          owner[reflection.foreign_type] = record ? record.class.polymorphic_name : nil
+          owner.write_attribute(reflection.foreign_type, record ? record.class.polymorphic_name : nil)
         end
 
         def inverse_reflection_for(record)
