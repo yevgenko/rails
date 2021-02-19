@@ -139,7 +139,7 @@ module ActiveRecord
       end
 
       def serializable?(value)
-        value.blank? || mapping.has_key?(value) || mapping.has_value?(normalize_value(value))
+        value.blank? || mapping.has_key?(value) || mapping.has_value?(normalize_value(value)) && super
       end
 
       def normalize_value(value)
