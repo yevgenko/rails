@@ -139,7 +139,13 @@ module ActiveRecord
       end
 
       def serializable?(value)
-        value.blank? || mapping.has_key?(value) || mapping.has_value?(value)
+        value.blank? || mapping.has_key?(value) || mapping.has_value?(normalize_value(value))
+      end
+
+      def normalize_value(value)
+        return value.to_i if value.is_a?(::String) && value.match(/^\d+$/)
+
+        value
       end
 
       def serialize(value)
